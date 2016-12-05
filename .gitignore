@@ -79,3 +79,6 @@ apps/vJoyList/gen-versioninfo.h
 SDK.zip
 SDK/ReadMe.pdf
 SDK/c#/ReadMe.pdf
+
+# nuget
+packages/

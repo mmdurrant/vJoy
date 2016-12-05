@@ -888,7 +888,7 @@ int RemDev(DEVINST hDevInst, BOOL DelInf)
 	TCHAR * DeviceInstanceId;
 	SP_DEVINFO_DATA  DeviceInfoData;
 	BOOL rDi;
-	CONFIGRET cr;
+	//CONFIGRET cr;
 
 
 	// Creating a clean Device Info Set
@@ -1420,7 +1420,9 @@ Return Value:
     }
     return NULL;
 }
+#if (_MSC_VER < 1900 )
 #pragma warning( pop )
+#endif
 
 #if (KMDF_MINOR_VERSION != 005 &&  KMDF_MINOR_VERSION != 007)
 void DelMultiSz(__in_opt __drv_freesMem(object) PZPWSTR Array)

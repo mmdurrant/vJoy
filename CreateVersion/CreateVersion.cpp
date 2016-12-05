@@ -3,10 +3,40 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <Shlwapi.h>
+//#include <boost/algorithm/string.hpp>
+//#include <boost/algorithm/string/classification.hpp>
+//#include <string>
+
+
 #ifdef _WIN32
 #define popen _popen
 #define pclose _pclose
 #endif
+
+using namespace std;
+
+
+//
+//static const char* trim(char &input)
+//{
+//	
+//	static char* trimChars = " \t\n";
+//	
+//	boost::algorithm::replace_all(input, trimChars, {'\0'});
+//
+//	size_t first = str.find_first_not_of(trimChars);
+//	if (string::npos == first)
+//	{
+//		return str.c_str();
+//		
+//	}
+//
+//
+//	
+//	size_t last = str.find_last_not_of(trimChars);
+//	return str.substr(first, (last - first + 1)).c_str();
+//}
 
 static void find_delim(char *s, char **res, int *ix)
 {
@@ -20,14 +50,16 @@ static void find_delim(char *s, char **res, int *ix)
 	}
 }
 
+
 int main(int argc, char **argv)
 {
 	unsigned int major = 0, mid = 0, minor = 0;
 	char vbuf[4096] = { 0 };
-	char *version="0.0.0", *ncommits="0", *sha="0";
+	char *version="1.0.0", *ncommits="0", *sha="0";
 	FILE *po;
 	int buflen;
 	int outval;
+	char* trimChars = " \t\n";
 
 	// Open output file
 	char * filename = argv[1];
@@ -52,9 +84,9 @@ int main(int argc, char **argv)
 	}
 
 	/** Get the output */
-	po = popen("git describe --long --match  v*", "r");
+	po = popen("cmd /c echo v2.1.8-31-g5d25ffd", "r");
 	if (!po) {
-		perror("git describe");
+		perror("cmd /c echo 42");
 		outval = -2;
 		goto FINAL;
 	}
@@ -76,9 +108,9 @@ int main(int argc, char **argv)
 	// Commit #	 - Will be used as build number
 	find_delim(vbuf, &ncommits, &buflen);
 	
-	// Version
 	version = vbuf;
-
+	auto trimmed = StrTrim((PTSTR)version, (PCTSTR)trimChars);
+	
 	// Break the version number into its components
 	int nFields = sscanf_s(version, "v%u.%u.%u",&major, &mid, &minor) ;
 	if (nFields != 3) {

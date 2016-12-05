@@ -48,7 +48,7 @@ _tmain(__in int argc, __in PZPWSTR argv)
 	if (err)
 		return -8;
 
-	//stream = _tfopen( INSTALL_LOG, "a+" );
+	stream = _tfopen( INSTALL_LOG, "a+" );
 	if (!stream)
 	{
 		_ftprintf(stdout, ">> main: Cannot open log file %s \n", INSTALL_LOG);
